@@ -1,5 +1,3 @@
-import area;
-
 def logo_(logo_name , directions):
     def addlogo(list):
         contain = False;
@@ -35,71 +33,93 @@ def engrave_(list_of_logos,logo_name,x,y):
         temp = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
         vertical = "|";
         horizontal = "_";
-
-
         contain = False;
-        length = len(list_of_logos) if len(list_of_logos) > 0 else 1;
 
+        length = len(list_of_logos) if len(list_of_logos) > 0 else 1;
+        i = 0
         for i in range(length):
             if len(list_of_logos) == 0 :
                 print("You did not enter any LOGO");
 
-
             elif logo_name == list_of_logos[i]["logo_name"] :
-                #print("this is engrave",logo_name,"exist.");
-                    contain = True;
-                    def update(area):
-                        temp = area;
-
-                        list_of_logos[i]["starting_coordinates"][0] = x;
-                        list_of_logos[i]["starting_coordinates"][1] = y;
-                        coordinates = [x,y];
-                        direction_list = list(list_of_logos[i]["directions"]);
+                contain = True;
+                def update(area):
+                    temp = area;
+                    for z in range(len(list_of_logos)):
+                        if(logo_name == list_of_logos[z]["logo_name"]):
 
 
-
-                        current_location = (coordinates);  # current_location[0] => x , [1] => y
-                        #print("İlk durum",current_location);
-                        current_location[0] = int(int(current_location[0]) - 1) * 2 ; # indexes starts with 0  0 so it suited for 1 1
-                        current_location[1] = int(int(current_location[1]) - 1) * 2 ;
-                        #print("İlk durum", current_location);
-                        #temp[current_location[0]][current_location[1]] = "#"; # showing starting coordinate
-                        # normal konumlari cikan degerlerin yarisi
-                        for j in range(len(direction_list)):
-                        # LİSTEDE YUKARI ÇIKMAK İNDEX ARTMASI VE GÖSTERGEDE AŞAĞI İNMESİ DEMEK O YÜZDEN D İLE F NİN YERİ FARKLI DİKKAT ET BUNA !!!!!!!!!!
-                            if(direction_list[j] == "D"):
-                                temp[current_location[0] + 1][current_location[1]] = vertical;
-                                #print("vertical ekledim", current_location[0] + 1,",",current_location[1]);
-
-                                current_location[0] = ((int(current_location[0]) + 2));
-                                #print("Asagiya indim");
+                            list_of_logos[z]["starting_coordinates"][0] = x;
+                            list_of_logos[z]["starting_coordinates"][1] = y;
+                            coordinates = [x,y];
+                            direction_list = list(list_of_logos[z]["directions"]);
 
 
-                            elif(direction_list[j] == "U"):
-                                temp[current_location[0] - 1][current_location[1]] = vertical;
-                                #print("vertical ekledim", current_location[0] - 1,",",current_location[1]);
+                            current_location = (coordinates);  # current_location[0] => x , [1] => y
 
-                                current_location[0] = (int(current_location[0]) - 2);
-                                #print("Yukariya Ciktim");
+                            current_location[0] = int(int(current_location[0]) - 1) * 2 ; # indexes starts with 0  0 so it suited for 1 1
+                            current_location[1] = int(int(current_location[1]) - 1) * 2 ;
 
-                            elif(direction_list[j] == "R"):
-                                temp[current_location[0]][current_location[1] + 1] = horizontal;
-                               # print("horizontal ekledim",current_location[0],",",current_location[1] + 1);
-                                current_location[1] = (int(current_location[1]) + 2);
-                                #print("Saga Gittim");
+                            #temp[current_location[0]][current_location[1]] = "#"; # showing starting coordinate
+                            # normal konumlari cikan degerlerin yarisi
+                            oversize = False;
+                            for j in range(len(direction_list)):
 
-                            elif(direction_list[j] == "L"):
-                                temp[current_location[0]][current_location[1] - 1] = horizontal;
-                                #print("horizontal ekledim", current_location[0],",",current_location[1] - 1);
-                                current_location[1] = ((int(current_location[1]) - 2));
-                                #print("Sola Gittim");
+                                # LİSTEDE YUKARI ÇIKMAK İNDEX ARTMASI VE GÖSTERGEDE AŞAĞI İNMESİ DEMEK O YÜZDEN D İLE F NİN YERİ FARKLI DİKKAT ET BUNA !!!!!!!!!!
 
-                        for n in range(21):
-                            for c in range(21):
-                                print(list_of_area[n][c], end="");
-                            print();
+                                if(current_location[0]>20 or current_location[0]<0 or current_location[1]>20 or current_location[1]<0):
+                                    if(x == "0" and y == "0"):
+                                        print("Grid is starting with [1,1] ");
+                                    else:
+                                        print("Your starting points over sized to my grid.");
+                                    oversize = True
+                                    break;
+                                else:
+                                    if(direction_list[j] == "D"):
+                                        if(current_location[0] <= 18):
+                                            temp[current_location[0] + 1][current_location[1]] = vertical;
+                                            current_location[0] = ((int(current_location[0]) + 2));
+                                        else:
+                                            print("Your direction oversized to my grid.");
+                                            oversize = True;
+                                            break;
 
-                        return temp;
+                                    elif(direction_list[j] == "U"):
+                                        if(current_location[0]>1):
+                                            temp[current_location[0] - 1][current_location[1]] = vertical;
+                                            current_location[0] = (int(current_location[0]) - 2);
+                                        else:
+                                            print("Your direction oversized to my grid.");
+                                            oversize = True;
+                                            break;
+
+
+                                    elif(direction_list[j] == "R"):
+                                        if(current_location[1]<=18):
+                                            temp[current_location[0]][current_location[1] + 1] = horizontal;
+                                            current_location[1] = (int(current_location[1]) + 2);
+                                        else:
+                                            print("Your direction oversized to my grid.");
+                                            oversize = True;
+                                            break;
+
+                                    elif(direction_list[j] == "L"):
+                                        if(current_location[1]>1):
+                                            temp[current_location[0]][current_location[1] - 1] = horizontal;
+                                            current_location[1] = ((int(current_location[1]) - 2));
+                                        else:
+                                            print("Your direction oversized to my grid.");
+                                            oversize = True;
+                                            break;
+
+                            if(oversize == False):
+                                for n in range(21):
+                                    for c in range(21):
+                                        #time.sleep(0.1);
+                                        print(list_of_area[n][c], end=""); # resizing grid with end parameter
+                                    print();
+
+                                return temp;
 
 
         def notupdate(area):
@@ -108,7 +128,7 @@ def engrave_(list_of_logos,logo_name,x,y):
         if(contain == True):
             return update;
         else :
-            print(logo_name,"is not defined. ")
+            print(logo_name,"is not defined.")
             return notupdate;
 
 def same_(list_of_logos,logo1,logo2):
@@ -127,20 +147,17 @@ def same_(list_of_logos,logo1,logo2):
                 if (logo1 in list_of_logos[i]["logo_name"] or logo2 in list_of_logos[i]["logo_name"]):
                     comparedLogos.append(list_of_logos[i]);
                     contain += 1
-
-
-
         if(contain == 2):
-            if(logo1 == logo2):
-                print("OYEEEE")
+
             direction_of_logo1 = list(comparedLogos[0]["directions"]);
             direction_of_logo2 = list(comparedLogos[1]["directions"]);
-            edge_list = [];
 
-        # We have to minimize direction amount
+            #minimize direction amount
+            #Creating first logo's edge list initialize x and y to 0
+            edge_list = [];
             x = 0;
             y = 0;
-            #print("logo 1 in 0 0 dan sonraki hareketleri",direction_of_logo1);
+
             for j in range(len(direction_of_logo1)):
 
                 if(direction_of_logo1[j] == "D"):
@@ -159,7 +176,7 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h":"V"
                         })
                         y = y -1 ;
-                    #print("D")
+
 
                 elif(direction_of_logo1[j] == "U"):
                     flag = False;
@@ -179,13 +196,13 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "V"
                         })
                         y = y + 1;
-                    #print("U")
+
                 elif(direction_of_logo1[j] =="R"):
                     flag = False
                     for k in range(len(edge_list)):
 
                         if(([x,y] == edge_list[k]["ending_points"] and [x+1,y] == edge_list[k]["starting_points"]) or ([x,y] == edge_list[k]["starting_points"] and [x+1,y] == edge_list[k]["ending_points"])):
-                            #print("this edge is exist")
+
                             flag = True;
                             x = x + 1;
 
@@ -198,13 +215,13 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "H"
                         })
                         x = x+1;
-                    #print("R")
+
                 elif(direction_of_logo1[j] == "L"):
                     flag = False;
                     for k in range(len(edge_list)):
 
                         if(([x,y] == edge_list[k]["ending_points"] and [x-1,y] == edge_list[k]["starting_points"]) or ([x,y] == edge_list[k]["starting_points"] and [x-1,y] == edge_list[k]["ending_points"])):
-                            #print("this edge is exist")
+
                             flag = True;
                             x = x - 1;
                     if(flag == False):
@@ -216,14 +233,12 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "H"
                         })
                         x = x - 1 ;
-                    #print("L")
-            #print("Edge List 1")
-            #print(edge_list);
             x = 0;
             y = 0;
-            ######################################
+
+            #Creating second logo's edge list reinitialize x and y to 0
             edge_list2 = []
-            #print("logo 2 in 0 0 dan sonraki hareketleri", direction_of_logo2);
+
             for j in range(len(direction_of_logo2)):
 
                 if (direction_of_logo2[j] == "D"):
@@ -243,7 +258,7 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "V"
                         })
                         y = y - 1;
-                    #print("D")
+
 
                 elif (direction_of_logo2[j] == "U"):
                     flag = False;
@@ -263,13 +278,13 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "V"
                         })
                         y = y + 1;
-                    #print("U")
+
                 elif (direction_of_logo2[j] == "R"):
                     flag = False
                     for k in range(len(edge_list2)):
 
                         if (([x, y] == edge_list2[k]["ending_points"] and [x + 1, y] == edge_list2[k]["starting_points"]) or ([x, y] == edge_list2[k]["starting_points"] and [x + 1, y] == edge_list2[k]["ending_points"])):
-                            #print("this edge is exist")
+
                             flag = True;
                             x = x + 1;
 
@@ -282,13 +297,13 @@ def same_(list_of_logos,logo1,logo2):
                             "v/h": "H"
                         })
                         x = x + 1;
-                    #print("R")
+
                 elif (direction_of_logo2[j] == "L"):
                     flag = False;
                     for k in range(len(edge_list2)):
 
                         if (([x, y] == edge_list2[k]["ending_points"] and [x - 1, y] == edge_list2[k]["starting_points"]) or ([x, y] == edge_list2[k]["starting_points"] and [x - 1, y] == edge_list2[k]["ending_points"])):
-                            #print("this edge is exist")
+
                             flag = True;
                             x = x - 1;
                     if (flag == False):
@@ -301,13 +316,6 @@ def same_(list_of_logos,logo1,logo2):
                         })
 
                         x = x - 1;
-                    #print("L")
-            #print("Edge List 2")
-            #print(edge_list2);
-
-            #print(edge_list);
-
-            #print(edge_list2);
 
             if(len(edge_list) == len(edge_list2)):
                 point_list1 = []
@@ -317,8 +325,6 @@ def same_(list_of_logos,logo1,logo2):
                 for x in range(len(edge_list)):
                     if(edge_list[x]["ending_points"] not in point_list1):
                         point_list1.append(edge_list[x]["ending_points"]);
-
-
 
                     if(edge_list2[x]["ending_points"] not in point_list2):
                         point_list2.append(edge_list2[x]["ending_points"]);
@@ -330,13 +336,10 @@ def same_(list_of_logos,logo1,logo2):
                                 same = True;
                             else:
                                 match += 1;
-
                         else:
-
                             temp = point_list1[t][0];
                             point_list1[t][0] = point_list1[t][1]
                             point_list1[t][1] = temp * (-1);
-                            # print("Boyle oldu", point_list1[t][0], point_list1[t][1]);
                             t = 0;
                     if(same ==True):
                         print("Yes");
@@ -345,18 +348,32 @@ def same_(list_of_logos,logo1,logo2):
                 if(same == False):
                     print("No");
 
-            else:
+            else: # if length of edges are not equal
                 print("No");
         else:
             print("Some of logos are not defined");
 
-
+def areamanagment():
+    area = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+    dot = "."
+    space = " ";
+    for i in range(21):
+            for j in range(11):
+                if (i % 2 != 0):
+                    area[i].append(space);
+                    if(j != 10):
+                        area[i].append(space);
+                else:
+                    area[i].append(dot); #coordinates
+                    if(j != 10):
+                        area[i].append(space); #odd indexes are direction places
+    return area;
 
 
 list_of_logos = [];
 while True :
     main_command = input("Enter a Command (q for exit) : ").split();
-    list_of_area = area.areamanagment();
+    list_of_area = areamanagment();
 
     try:
         if(main_command[0] == "LOGO"):
@@ -403,16 +420,9 @@ while True :
         else:
             print("Entered wrong command");
 
-
     except IndexError:
+        print("You did not enter anything")
         continue;
-
-
-
-
-
-
-#x, y , z = input("Command : ").split();
 
 
 
